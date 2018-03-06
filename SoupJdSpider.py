@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from pyquery import PyQuery
+from BeautifulSoup import BeautifulSoup
 from JdBaseSpider import JdBaseSpider
 from utils import get_html, HtmlGetter
 
-
-# 使用pyquery的蜘蛛
-class QueryJdSpider(JdBaseSpider):
+# 使用BeautifulSoup的蜘蛛
+class SoupJdSpider(JdBaseSpider):
     html_getter = None
 
     def get_page_nums(self, main_url):
@@ -20,10 +19,10 @@ class QueryJdSpider(JdBaseSpider):
         :return: 该分类总共多少页
         """
         html = get_html(main_url)
-        doc = PyQuery(html)
-        page = doc(".p-skip em b")
-        print "page number:" + page.text()
-        return int(page.text())
+        soup = BeautifulSoup(html, "lxml")
+        page = soup.select(".p-skip em b")
+        print "page number:" + page.get_text()
+        return int(page.get_text())
 
     def check_html_getter(self):
         if self.html_getter is None:
@@ -38,14 +37,14 @@ class QueryJdSpider(JdBaseSpider):
         """
         self.check_html_getter()
         html = self.html_getter.get_html(page_url)
-        doc = PyQuery(html)
-        items = doc(".gl-item").items()
+        soup = BeautifulSoup(html, "lxml")
+        items = soup.select(".gl-item")
         for item in items:
-            item_id = item(".gl-i-wrap.j-sku-item").attr("data-sku")
-            item_name = item(".p-name em").text()
-            item_price = item(".J_price.js_ys").text()
-            item_url = item(".p-name a").attr("href")
-            img_url = item(".p-img img").attr("src")
+            item_id = item.select(".gl-i-wrap.j-sku-item").attrs("data-sku")
+            item_name = item.select(".p-name em").get_text()
+            item_price = item.select(".J_price.js_ys").get_text()
+            item_url = item.select(".p-name a").attrs("href")
+            img_url = item.select(".p-img img").attrs("src")
             if img_url is None:
-                img_url = item(".p-img img").attr("data-lazy-img")
+                img_url = item.select(".p-img img").attrs("data-lazy-img")
             yield (item_id, item_name, item_price, item_url, img_url)
