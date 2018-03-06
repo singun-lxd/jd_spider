@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from DataWriter.ConsoleWriter import ConsoleWriter
 from DataWriter.FileWriter import FileWriter
 from QueryJdSpider import QueryJdSpider
 

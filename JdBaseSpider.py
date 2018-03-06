@@ -5,7 +5,7 @@ from config import *
 
 class JdBaseSpider:
     base_url = "https://list.jd.com/list.html"
-    thread_count = 1
+    thread_count = 5
     data_writer = None
 
     def __init__(self, writer):
