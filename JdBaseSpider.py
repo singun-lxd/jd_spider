@@ -32,7 +32,7 @@ class JdBaseSpider:
                 print "start to parse url:" + page_url
                 data = self.get_page_details(page_url)
                 for item in data:
-                    print "%s,%s,%s,%s" % item
+                    print "%s,%s,%s,%s,%s" % item
 
             print "parse finish"
             time.sleep(SLEEP_TIME)

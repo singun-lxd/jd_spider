@@ -2,10 +2,13 @@
 
 from pyquery import PyQuery
 from JdBaseSpider import JdBaseSpider
-from utils import get_html
+from utils import get_html, HtmlGetter
+
 
 # 使用pyquery的蜘蛛
 class QueryJdSpider(JdBaseSpider):
+    html_getter = HtmlGetter()
+
     def get_page_nums(self, main_url):
         """
         解析以下html，得到页码
@@ -29,14 +32,15 @@ class QueryJdSpider(JdBaseSpider):
         :param page_url: 京东分类每一页的url
         :return: 该分类详情的generator
         """
-        html = get_html(page_url)
+        html = self.html_getter.get_html(page_url)
         doc = PyQuery(html)
         items = doc(".gl-item").items()
         for item in items:
             item_id = item(".gl-i-wrap.j-sku-item").attr("data-sku")
             item_name = item(".p-name em").text()
+            item_price = item(".J_price.js_ys").text()
             item_url = item(".p-name a").attr("href")
             img_url = item(".p-img img").attr("src")
             if img_url is None:
                 img_url = item(".p-img img").attr("data-lazy-img")
-            yield (item_id, item_name, item_url, img_url)
+            yield (item_id, item_name, item_price, item_url, img_url)
