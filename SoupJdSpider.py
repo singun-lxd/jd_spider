@@ -4,6 +4,7 @@ from BeautifulSoup import BeautifulSoup
 from JdBaseSpider import JdBaseSpider
 from utils import get_html, HtmlGetter
 
+
 # 使用BeautifulSoup的蜘蛛
 class SoupJdSpider(JdBaseSpider):
     html_getter = None
@@ -28,6 +29,8 @@ class SoupJdSpider(JdBaseSpider):
             item_id = item.select(".gl-i-wrap.j-sku-item").attrs("data-sku")
             item_name = item.select(".p-name em").get_text()
             item_price = item.select(".J_price.js_ys").get_text()
+            if not item_price:
+                continue
             item_url = item.select(".p-name a").attrs("href")
             img_url = item.select(".p-img img").attrs("src")
             if img_url is None:

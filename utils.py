@@ -3,6 +3,7 @@
 import requests
 from selenium import webdriver
 
+
 def get_html(url, data=None):
     '''
     :param url:请求的url地址
@@ -12,12 +13,13 @@ def get_html(url, data=None):
     response = requests.get(url, data)
     return response.text
 
+
 class HtmlGetter:
     browser = None
 
     def __init__(self):
         pass
-        #self.browser = webdriver.Chrome()
+        # self.browser = webdriver.Chrome()
 
     def get_html(self, url):
         if self.browser is None:

@@ -3,6 +3,7 @@ import threading
 import time
 from config import *
 
+
 class JdBaseSpider:
     base_url = "https://list.jd.com/list.html"
     thread_count = 5
@@ -25,7 +26,7 @@ class JdBaseSpider:
 
     def parse_data(self, category_url, start_page, stop_page, thread_id):
         for page in range(start_page, stop_page + 1):
-            #解析每一页的内容并输出
+            # 解析每一页的内容并输出
             page_url = self.append_page_url(category_url, page)
             print "start to parse url:" + page_url
             data = self.get_page_details(page_url, thread_id)
@@ -35,7 +36,7 @@ class JdBaseSpider:
 
     def execute(self):
         while True:
-            #拿到总页码数
+            # 拿到总页码数
             category_id = ("670", "671", "672")
             category_url = self.get_category_url(",".join(category_id))
             print "start main url:" + category_url
@@ -45,7 +46,7 @@ class JdBaseSpider:
 
             page_each_thread = pages / self.thread_count
             thread_list = []
-            #每个线程执行一部分的解析工作
+            # 每个线程执行一部分的解析工作
             for thread_id in range(0, self.thread_count):
                 start = page_each_thread * thread_id + 1
                 stop = pages + 1
@@ -56,7 +57,7 @@ class JdBaseSpider:
                 thread_list.append(t)
                 t.start()
 
-            #等待线程执行结束
+            # 等待线程执行结束
             for t in thread_list:
                 t.join()
 

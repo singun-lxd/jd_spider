@@ -3,6 +3,7 @@ import pymongo
 
 from DataWriter.BaseWriter import BaseWriter
 
+
 class MongoDbWriter(BaseWriter):
     client = None
     db = None

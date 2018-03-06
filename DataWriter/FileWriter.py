@@ -2,8 +2,8 @@
 import codecs
 import json
 import os
-
 from DataWriter.BaseWriter import BaseWriter
+
 
 class FileWriter(BaseWriter):
     save_path = None
@@ -16,6 +16,6 @@ class FileWriter(BaseWriter):
 
     def write_data(self, page, data):
         page_path = self.save_path + str(page)
-        with codecs.open(page_path,'a',encoding="utf-8") as f:
+        with codecs.open(page_path, 'a', encoding="utf-8") as f:
             data = ','.join([k + "=" + v for k, v in data.items()])
             f.write(json.dumps(data, ensure_ascii=False) + "\n")

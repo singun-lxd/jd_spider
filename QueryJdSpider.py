@@ -53,16 +53,16 @@ class QueryJdSpider(JdBaseSpider):
         html_getter = self.acquire_html_getter(thread_id)
         html = html_getter.get_html(page_url)
         doc = PyQuery(html)
-        #ads = doc(".u-ad-wrap").items()
-        #for ad in ads:
+        # ads = doc(".u-ad-wrap").items()
+        # for ad in ads:
         #    ad.remove()
         items = doc(".gl-item").items()
         for item in items:
             item_id = item(".gl-i-wrap.j-sku-item").attr("data-sku")
             item_name = item(".p-name em").text()
-            item_price = item(".J_price.js_ys").text()  #价格由js生成，所以必须使用HtmlGetter调用selenium解析
+            item_price = item(".J_price.js_ys").text()  # 价格由js生成，所以必须使用HtmlGetter调用selenium解析
             if not item_price:
-                #这里排除掉广告，广告价格只存储在J_price
+                # 这里排除掉广告，广告价格只存储在J_price
                 continue
             item_url = item(".p-name a").attr("href")
             img_url = item(".p-img img").attr("src")
