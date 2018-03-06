@@ -7,7 +7,7 @@ from utils import get_html, HtmlGetter
 
 # 使用pyquery的蜘蛛
 class QueryJdSpider(JdBaseSpider):
-    html_getter_list = list()
+    html_getter_list = []
     thread_lock = thread.allocate_lock()
 
     def get_page_nums(self, main_url):
@@ -27,6 +27,12 @@ class QueryJdSpider(JdBaseSpider):
         return int(page.text())
 
     def acquire_html_getter(self, thread_id):
+        """
+        根据线程id获取html_getter
+        多线程调用需要用锁保护
+        :param thread_id:
+        :return:
+        """
         html_getter = None
         self.thread_lock.acquire()
         if thread_id > len(self.html_getter_list) - 1:
