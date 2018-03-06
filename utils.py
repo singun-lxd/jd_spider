@@ -16,9 +16,12 @@ class HtmlGetter:
     browser = None
 
     def __init__(self):
-        self.browser = webdriver.Chrome()
+        pass
+        #self.browser = webdriver.Chrome()
 
     def get_html(self, url):
+        if self.browser is None:
+            self.browser = webdriver.Chrome()
         self.browser.get(url)
         return self.browser.find_element_by_xpath("//*").get_attribute("outerHTML")
 
