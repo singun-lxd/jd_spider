@@ -5,7 +5,11 @@ from config import *
 
 class JdBaseSpider:
     base_url = "https://list.jd.com/list.html"
-    thread_count = 5
+    thread_count = 1
+    data_writer = None
+
+    def __init__(self, writer):
+        self.data_writer = writer
 
     def get_page_nums(self, main_url):
         return 0
@@ -26,7 +30,8 @@ class JdBaseSpider:
             print "start to parse url:" + page_url
             data = self.get_page_details(page_url, thread_id)
             for item in data:
-                print ",".join(item)
+                if self.data_writer is not None:
+                    self.data_writer.write_data(page, item)
 
     def execute(self):
         while True:

@@ -62,4 +62,10 @@ class QueryJdSpider(JdBaseSpider):
             img_url = item(".p-img img").attr("src")
             if img_url is None:
                 img_url = item(".p-img img").attr("data-lazy-img")
-            yield (item_id, item_name, item_price, item_url, img_url)
+            yield {
+                'item_id': item_id,
+                'item_name': item_name,
+                'item_price': item_price,
+                'item_url': item_url,
+                'img_url': img_url,
+            }
